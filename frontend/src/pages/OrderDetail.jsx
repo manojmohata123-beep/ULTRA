@@ -297,13 +297,13 @@ export default function OrderDetail() {
                 {p.note && <span className="ml-2 text-xs text-[#8C857B]">· {p.note}</span>}
               </div>
               {p.document_id && (
-                <button
-  onClick={() => openFile(p.document_id)}
-  className=""flex items-center gap-1 text-xs text-[#264163] hover:underline" data-testid={`view-payment-doc-${p.id}`}>
-
-                  <FileText size={12} /> Receipt
-                </button>
-              )}
+  <button
+    onClick={() => openFile(p.document_id)}
+    className="flex items-center gap-1 text-xs text-[#264163] hover:underline"
+  >
+    <FileText size={12} /> Receipt
+  </button>
+)}
             </div>
           ))}
         </div>
