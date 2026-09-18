@@ -4,6 +4,10 @@ import { Loader2, FileText, IndianRupee } from "lucide-react";
 import { getPayments, fileUrl } from "@/lib/api";
 import { formatINR, formatDate } from "@/lib/format";
 import { StatusBadge } from "@/components/StatusBadge";
+import { Input } from "@/components/ui/input";
+import {
+  Select, SelectContent, SelectItem, SelectTrigger, SelectValue,
+} from "@/components/ui/select";
 
 const Row = ({ r, navigate }) => (
   <button
@@ -34,10 +38,19 @@ const Row = ({ r, navigate }) => (
   </button>
 );
 
+const SORTS = {
+  date_desc: { label: "Newest first", fn: (a, b) => new Date(b.created_at) - new Date(a.created_at) },
+  date_asc: { label: "Oldest first", fn: (a, b) => new Date(a.created_at) - new Date(b.created_at) },
+  price_desc: { label: "Price: high to low", fn: (a, b) => b.total_value - a.total_value },
+  price_asc: { label: "Price: low to high", fn: (a, b) => a.total_value - b.total_value },
+};
+
 export default function PaymentsTab() {
   const navigate = useNavigate();
   const [data, setData] = useState({ pending: [], archive: [] });
   const [loading, setLoading] = useState(true);
+  const [q, setQ] = useState("");
+  const [sort, setSort] = useState("date_desc");
 
   useEffect(() => {
     getPayments().then(setData).finally(() => setLoading(false));
@@ -45,10 +58,50 @@ export default function PaymentsTab() {
 
   if (loading) return <div className="flex justify-center py-16"><Loader2 className="animate-spin text-[#8C857B]" /></div>;
 
-  const totalDue = data.pending.reduce((s, r) => s + r.balance, 0);
+  const applyFilterSort = (list) => {
+    const t = q.trim().toLowerCase();
+    let out = list.filter((r) => {
+      if (!t) return true;
+      return (
+        r.customer_name.toLowerCase().includes(t) ||
+        r.firm_name.toLowerCase().includes(t) ||
+        r.phone.replace(/\s/g, "").includes(t.replace(/\s/g, ""))
+      );
+    });
+    out = [...out].sort(SORTS[sort].fn);
+    if (sort === "date_desc" && !t) {
+      // keep pending highest-balance-first only when explicitly sorted by date default
+      if (list === data.pending) out = [...out].sort((a, b) => b.balance - a.balance);
+    }
+    return out;
+  };
+
+  const pending = applyFilterSort(data.pending);
+  const archive = applyFilterSort(data.archive);
+  const totalDue = pending.reduce((s, r) => s + r.balance, 0);
 
   return (
     <div className="space-y-8">
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <Input
+          value={q}
+          onChange={(e) => setQ(e.target.value)}
+          placeholder="Search by name or number…"
+          className="max-w-sm rounded-xl border-[#E4DDD3] bg-white"
+          data-testid="payment-search-input"
+        />
+        <Select value={sort} onValueChange={setSort}>
+          <SelectTrigger className="w-48 rounded-xl border-[#E4DDD3] bg-white" data-testid="payment-sort-select">
+            <SelectValue placeholder="Sort by" />
+          </SelectTrigger>
+          <SelectContent>
+            {Object.entries(SORTS).map(([k, v]) => (
+              <SelectItem key={k} value={k}>{v.label}</SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      </div>
+
       <section>
         <div className="mb-3 flex items-center justify-between">
           <h2 className="flex items-center gap-2 text-lg font-medium text-[#2C2A29]">
@@ -60,11 +113,11 @@ export default function PaymentsTab() {
             </span>
           )}
         </div>
-        {data.pending.length === 0 ? (
+        {pending.length === 0 ? (
           <p className="py-8 text-center text-sm text-[#8C857B]">No pending payments. All settled.</p>
         ) : (
           <div className="space-y-3">
-            {data.pending.map((r) => <Row key={r.id} r={r} navigate={navigate} />)}
+            {pending.map((r) => <Row key={r.id} r={r} navigate={navigate} />)}
           </div>
         )}
       </section>
@@ -73,11 +126,11 @@ export default function PaymentsTab() {
         <h2 className="mb-3 flex items-center gap-2 text-lg font-medium text-[#2C2A29]">
           <FileText size={18} className="text-[#8C857B]" /> Payments Archive
         </h2>
-        {data.archive.length === 0 ? (
+        {archive.length === 0 ? (
           <p className="py-8 text-center text-sm text-[#8C857B]">No fully paid orders yet.</p>
         ) : (
           <div className="space-y-3">
-            {data.archive.map((r) => <Row key={r.id} r={r} navigate={navigate} />)}
+            {archive.map((r) => <Row key={r.id} r={r} navigate={navigate} />)}
           </div>
         )}
       </section>
