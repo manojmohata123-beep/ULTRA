@@ -33,7 +33,7 @@ export default function OrdersTab({ archived = false, onCreate, refreshKey }) {
     return (
       o.customer_name.toLowerCase().includes(t) ||
       o.firm_name.toLowerCase().includes(t) ||
-      o.phone.includes(t)
+      o.phone.replace(/\s/g, "").includes(t.replace(/\s/g, ""))
     );
   })].sort(SORTS[sort].fn);
 

@@ -68,12 +68,7 @@ export default function PaymentsTab() {
         r.phone.replace(/\s/g, "").includes(t.replace(/\s/g, ""))
       );
     });
-    out = [...out].sort(SORTS[sort].fn);
-    if (sort === "date_desc" && !t) {
-      // keep pending highest-balance-first only when explicitly sorted by date default
-      if (list === data.pending) out = [...out].sort((a, b) => b.balance - a.balance);
-    }
-    return out;
+    return [...out].sort(SORTS[sort].fn);
   };
 
   const pending = applyFilterSort(data.pending);

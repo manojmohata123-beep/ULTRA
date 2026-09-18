@@ -26,6 +26,11 @@ Single-user website to track confirmed orders. Dashboard with all orders + New O
 - Phone autofill on blur.
 - Verified: 12/12 backend tests + all frontend flows pass.
 
+### Added (2026-06-18, iteration 2)
+- Payments tab: search by customer name or phone number (`payment-search-input`) + sort dropdown (`payment-sort-select`) — Newest/Oldest first, Price high→low / low→high. Sort applies within each section (Pending Collections, Payments Archive).
+- Orders & Archive tabs: sort dropdown (`order-sort-select` / `archive-sort-select`) with same date/price options; phone search made whitespace-insensitive to match Payments.
+- Verified: 16/16 frontend checks pass (iteration_2.json).
+
 ## Backlog
 - P1: Edit an existing order (currently create + delete only).
 - P2: Dashboard summary stats (total outstanding, active orders count).
