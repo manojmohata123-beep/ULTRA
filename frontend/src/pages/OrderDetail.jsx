@@ -290,22 +290,37 @@ export default function OrderDetail() {
             <p className="py-2 text-sm text-[#8C857B]">No payments recorded yet.</p>
           )}
           {order.payments?.map((p) => (
-            <div key={p.id} className="flex items-center justify-between rounded-xl bg-[#F8F6F0] px-4 py-2.5 text-sm" data-testid={`payment-row-${p.id}`}>
-              <div>
-                <span className="font-medium text-[#2C2A29]">{formatINR(p.amount)}</span>
-                <span className="ml-2 text-xs text-[#8C857B]">{formatDateTime(p.at)}</span>
-                {p.note && <span className="ml-2 text-xs text-[#8C857B]">· {p.note}</span>}
-              </div>
-              {p.document_id && (
-  <button
-    onClick={() => openFile(p.document_id)}
-    className="flex items-center gap-1 text-xs text-[#264163] hover:underline"
+  <div
+    key={p.id}
+    className="flex items-center justify-between rounded-xl bg-[#F8F6F0] px-4 py-2.5 text-sm"
+    data-testid={`payment-row-${p.id}`}
   >
-    <FileText size={12} /> Receipt
-  </button>
-)}
-            </div>
-          ))}
+    <div>
+      <span className="font-medium text-[#2C2A29]">
+        {formatINR(p.amount)}
+      </span>
+      <span className="ml-2 text-xs text-[#8C857B]">
+        {formatDateTime(p.at)}
+      </span>
+      {p.note && (
+        <span className="ml-2 text-xs text-[#8C857B]">
+          · {p.note}
+        </span>
+      )}
+    </div>
+
+    {p.document_id && (
+      <button
+        type="button"
+        onClick={() => openFile(p.document_id)}
+        className="flex items-center gap-1 text-xs text-[#264163] hover:underline"
+      >
+        <FileText size={12} />
+        Receipt
+      </button>
+    )}
+  </div>
+))}
         </div>
       </div>
 
