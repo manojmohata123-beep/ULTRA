@@ -1,0 +1,183 @@
+{
+  "design_system": {
+    "identity": "Google NotebookLM Editorial Intelligence Workspace",
+    "theme": "Warm Light Editorial",
+    "archetype": "Organic & Earthy / Editorial Workspace",
+    "principles": [
+      "Calm & Editorial: Feels like an intelligent notebook workspace (Google NotebookLM) rather than a rigid corporate ERP or dark admin dashboard",
+      "Tactile Warmth: Ivory and soft cream surfaces with soft warm-gray borders, clear high-legibility text, and restrained muted accents",
+      "Restrained Precision: No bright corporate blue, no neons, no heavy gloss or excessive gradients. Functional micro-interactions and smooth accordion transitions",
+      "Content & Flow First: Focus on clear order status progression, multi-item step checklists with timestamps, and instant document access"
+    ]
+  },
+  "colors": {
+    "background_main": "#FBF9F5",
+    "background_content": "#F4F0E8",
+    "surface_card": "#FFFFFF",
+    "surface_panel": "#F8F6F0",
+    "surface_hover": "#F0ECE1",
+    "surface_active": "#E8E2D5",
+    "border_subtle": "#E4DDD3",
+    "border_medium": "#D6CFC3",
+    "text_primary": "#2C2A29",
+    "text_secondary": "#635E59",
+    "text_muted": "#8C857B",
+    "text_inverted": "#FFFFFF",
+    "accents": {
+      "terracotta": {
+        "main": "#D96B43",
+        "soft": "#FBEBE4",
+        "border": "#F3C5B4",
+        "text": "#9E3C1B"
+      },
+      "sage": {
+        "main": "#5E826D",
+        "soft": "#EBF2EE",
+        "border": "#C4DACE",
+        "text": "#2D503C"
+      },
+      "lavender": {
+        "main": "#8A7B9C",
+        "soft": "#F2EFF6",
+        "border": "#D5CDE2",
+        "text": "#514362"
+      },
+      "mustard": {
+        "main": "#D4A359",
+        "soft": "#FAF4E8",
+        "border": "#EED5A6",
+        "text": "#825C1C"
+      },
+      "charcoal": {
+        "main": "#3D3935",
+        "soft": "#EFECE8",
+        "border": "#C5C0B7",
+        "text": "#1F1D1B"
+      },
+      "slate_blue": {
+        "main": "#4B6B94",
+        "soft": "#EEF3F8",
+        "border": "#C1D3E5",
+        "text": "#264163"
+      }
+    },
+    "status_badges": {
+      "ordered": {
+        "bg": "#FAF4E8",
+        "text": "#825C1C",
+        "border": "#EED5A6"
+      },
+      "dispatched": {
+        "bg": "#EEF3F8",
+        "text": "#264163",
+        "border": "#C1D3E5"
+      },
+      "received": {
+        "bg": "#F2EFF6",
+        "text": "#514362",
+        "border": "#D5CDE2"
+      },
+      "delivered": {
+        "bg": "#EBF2EE",
+        "text": "#2D503C",
+        "border": "#C4DACE"
+      },
+      "payment_pending": {
+        "bg": "#FBEBE4",
+        "text": "#9E3C1B",
+        "border": "#F3C5B4"
+      },
+      "completed": {
+        "bg": "#EBF2EE",
+        "text": "#2D503C",
+        "border": "#C4DACE"
+      }
+    }
+  },
+  "typography": {
+    "font_family_primary": "Plus Jakarta Sans, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif",
+    "font_family_mono": "JetBrains Mono, SFMono-Regular, monospace",
+    "headings": {
+      "h1": "text-3xl font-semibold tracking-tight text-[#2C2A29]",
+      "h2": "text-2xl font-semibold tracking-tight text-[#2C2A29]",
+      "h3": "text-xl font-medium text-[#2C2A29]",
+      "h4": "text-lg font-medium text-[#2C2A29]"
+    },
+    "body": {
+      "large": "text-base leading-relaxed text-[#2C2A29]",
+      "standard": "text-sm leading-normal text-[#2C2A29]",
+      "secondary": "text-sm text-[#635E59]",
+      "muted": "text-xs text-[#8C857B]",
+      "code": "font-mono text-xs tracking-wide text-[#3D3935]"
+    },
+    "numbers": "font-sans font-semibold tracking-tight text-[#2C2A29]"
+  },
+  "spacing_and_layout": {
+    "container_padding": "p-4 sm:p-6 md:p-8",
+    "card_padding": "p-5 md:p-6",
+    "grid_gap": "gap-4 md:gap-6",
+    "border_radius": {
+      "card": "rounded-2xl",
+      "button": "rounded-xl",
+      "input": "rounded-xl",
+      "badge": "rounded-full"
+    },
+    "shadows": {
+      "subtle": "shadow-[0_2px_8px_rgba(44,42,41,0.04)]",
+      "hover": "shadow-[0_4px_16px_rgba(44,42,41,0.08)]",
+      "modal": "shadow-[0_12px_36px_rgba(44,42,41,0.12)]"
+    }
+  },
+  "image_urls": {
+    "workspace_textures": [
+      {
+        "url": "https://images.unsplash.com/photo-1531346878377-a5be20888e57?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2Nzd8MHwxfHNlYXJjaHwzfHxtaW5pbWFsJTIwd2FybSUyMHdvcmtzcGFjZSUyMGFlc3RoZXRpYyUyMGRvY3VtZW50JTIwbm90ZWJvb2t8ZW58MHx8fHwxNzg5NzM1OTU1fDA&ixlib=rb-4.1.0&q=85",
+        "description": "Clean notebook aesthetic background",
+        "category": "placeholder_documents"
+      },
+      {
+        "url": "https://images.pexels.com/photos/8970647/pexels-photo-8970647.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+        "description": "Warm minimal workspace with documents",
+        "category": "workspace_hero"
+      }
+    ]
+  },
+  "component_specifications": {
+    "header_nav": {
+      "style": "Sticky top bar with warm off-white background (#FBF9F5/90), backdrop blur (backdrop-blur-md), subtle border bottom (#E4DDD3), NotebookLM title pill badge, search bar, and clean tabs switcher (Orders, Customers, Payments, Archive)",
+      "cta": "Primary button in warm charcoal (#3D3935) or terracotta (#D96B43) with rounded-xl, soft hover glow"
+    },
+    "order_cards": {
+      "style": "White rounded-2xl cards with subtle 1px border (#E4DDD3) and soft warm shadow. Collapsed view displays customer name, firm name, phone, order date, status badges (derived from items), item summary, order total ₹, advance ₹, pending balance ₹",
+      "interaction": "Clicking card expands smooth inline accordion or opens detail panel showing all item stages, LR document uploads, payment history, and document previewer"
+    },
+    "item_checklist": {
+      "style": "Clean 4-column or vertical 4-stage stepper per item: (1) Order Placed with Manufacturer, (2) Dispatched from Factory (opens LR doc upload modal/input), (3) Received at Warehouse, (4) Delivered to Client",
+      "timestamp_display": "Soft monospace timestamp recorded underneath checked boxes (e.g. '04 Jul 2026, 02:45 PM')"
+    },
+    "create_order_dialog": {
+      "style": "NotebookLM styled sheet or modal dialog with ivory/white panel, phone number input with instant customer name/firm autofill lookup, document/PO upload dropzone, dynamic multi-item line manager (add item, brand, quantity), and payment advance recorder"
+    },
+    "payments_and_customers_tabs": {
+      "style": "Customers subtab with searchable client cards, lifetime order total, firm details, and past order history modal. Payments subtab split into 'Pending Collections' summary cards on top and 'Payments Archive' table below"
+    }
+  },
+  "instructions_to_main_agent": [
+    "Strictly follow the Google NotebookLM editorial design language: warm off-white main background (#FBF9F5), soft cream content containers (#F4F0E8), pure white rounded cards (#FFFFFF), and subtle warm-gray borders (#E4DDD3). Avoid bright corporate blue, neons, dark enterprise themes, glossy glassmorphism, or heavy dark gradients.",
+    "Implement auto-fill logic for Customer Name and Firm Name whenever a matching Phone Number is typed in the Create Order dialog or customer forms.",
+    "Support dynamic multi-item creation during order creation (Item Name, Brand, Quantity per item line) and document upload for PO/Invoice stored in backend MongoDB.",
+    "Ensure each order item has a 4-stage tick box system: (1) Order Placed, (2) Dispatched from Factory (requires LR document/image upload), (3) Received, (4) Delivered to Client. Store and display date and time recorded on each tick.",
+    "Calculate the derived order status from item checkboxes (e.g., Partially Dispatched, Dispatched, Partially Delivered, Delivered, etc.).",
+    "Display pending payments prominently on main page and payments tab. Allow recording partial or full payments with receipt document upload.",
+    "Implement the 3-day rule for completed and fully paid orders: remain on main page as 'Delivered' for 3 days, then transition into 'Order Archive'. Provide a filter/toggle to view Order Archive.",
+    "Ensure all interactive elements (buttons, inputs, checkboxes, tabs, document view buttons) have descriptive 'data-testid' attributes (e.g., data-testid='create-order-button', data-testid='phone-number-input', data-testid='item-stage-1-checkbox').",
+    "Format currency in Indian Rupees (₹) with proper comma separation (e.g. ₹1,50,000)."
+  ],
+  "UNIVERSAL GUIDELINES FOR MAIN AGENT": [
+    "Use generous padding (p-6, p-8) and soft borders (#E4DDD3) to ensure breathable editorial workspace layout.",
+    "Do NOT use pure #000000 or harsh pure white page backgrounds. Stick to #FBF9F5 background and #2C2A29 text.",
+    "Ensure Sonner toasts are used for action feedback (order created, document uploaded, stage updated, payment recorded).",
+    "All forms and dialogs must have clean validation and interactive feedback.",
+    "Always add data-testid attributes to buttons, inputs, modals, table rows, and status badges."
+  ]
+}
