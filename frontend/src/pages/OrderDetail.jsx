@@ -18,7 +18,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { StatusBadge } from "@/components/StatusBadge";
 import { FileUpload } from "@/components/FileUpload";
-import { getOrder, updateStage, addPayment, deleteOrder, fileUrl } from "@/lib/api";
+import { getOrder, updateStage, addPayment, deleteOrder, fileUrl, openFile } from "@/lib/api";
 import { formatINR, formatDateTime, formatDate, STAGE_META } from "@/lib/format";
 import { toast } from "sonner";
 
@@ -61,15 +61,12 @@ const StageCheck = ({ stage, item, orderId, onUpdate, onRequestLR }) => {
         <span className="font-mono text-[10px] leading-tight text-[#8C857B]">{formatDateTime(st.at)}</span>
       )}
       {stage.key === "dispatched" && st.done && st.lr_document_id && (
-        <a
-          href={fileUrl(st.lr_document_id)}
-          target="_blank"
-          rel="noreferrer"
-          data-testid={`view-lr-${item.id}`}
-          className="flex items-center gap-1 text-[10px] text-[#264163] hover:underline"
+        <button
+  onClick={() => openFile(st.lr_document_id)}
+  data-testid={`view-lr-${item.id}`}
         >
           <FileText size={11} /> LR
-        </a>
+        </button>
       )}
     </div>
   );
@@ -212,15 +209,13 @@ export default function OrderDetail() {
         )}
 
         {order.document_id && (
-          <a
-            href={fileUrl(order.document_id)}
-            target="_blank"
-            rel="noreferrer"
+          <button
+  onClick={() => openFile(order.document_id)}
             data-testid="view-order-document"
             className="mt-4 inline-flex items-center gap-2 rounded-xl border border-[#E4DDD3] bg-[#F8F6F0] px-4 py-2 text-sm text-[#2C2A29] hover:bg-[#F0ECE1]"
           >
             <FileText size={15} className="text-[#8C857B]" /> View order document
-          </a>
+          </button>
         )}
       </div>
 
@@ -302,10 +297,13 @@ export default function OrderDetail() {
                 {p.note && <span className="ml-2 text-xs text-[#8C857B]">· {p.note}</span>}
               </div>
               {p.document_id && (
-                <a href={fileUrl(p.document_id)} target="_blank" rel="noreferrer" className="flex items-center gap-1 text-xs text-[#264163] hover:underline" data-testid={`view-payment-doc-${p.id}`}>
-                  <FileText size={12} /> Receipt
-                </a>
-              )}
+  <button
+    onClick={() => openFile(p.document_id)}
+    className="flex items-center gap-1 text-xs text-[#264163] hover:underline"
+  >
+    <FileText size={12} /> Receipt
+  </button>
+)}
             </div>
           ))}
         </div>
