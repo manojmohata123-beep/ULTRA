@@ -296,6 +296,42 @@ async def current_user(user=Depends(get_current_user)):
     return {
         "username": user["username"]
     }
+
+@auth_router.post("/auth/setup")
+async def setup_user(
+    payload: LoginRequest,
+    setup_secret: str
+):
+    if setup_secret != os.environ["SETUP_SECRET"]:
+        raise HTTPException(
+            status_code=403,
+            detail="Invalid setup secret"
+        )
+
+    existing_user = await db.users.find_one(
+        {"username": payload.username}
+    )
+
+    if existing_user:
+        raise HTTPException(
+            status_code=400,
+            detail="Username already exists"
+        )
+
+    password_hash = bcrypt.hashpw(
+        payload.password.encode("utf-8"),
+        bcrypt.gensalt()
+    ).decode("utf-8")
+
+    await db.users.insert_one({
+        "username": payload.username,
+        "password_hash": password_hash
+    })
+
+    return {
+        "message": "User created successfully",
+        "username": payload.username
+    }
     
 # ---------- Files ----------
 @api_router.post("/files")
