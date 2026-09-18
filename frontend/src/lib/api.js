@@ -61,5 +61,36 @@ export const lookupCustomer = (phone) =>
 export const getCustomers = () =>
   api.get("/customers").then((r) => r.data);
 
+export async function openFile(id) {
+  const token = localStorage.getItem("access_token");
+
+  if (!token) {
+    window.location.href = "/";
+    return;
+  }
+
+  const newWindow = window.open("", "_blank");
+
+  try {
+    const response = await api.get(`/files/${id}`, {
+      responseType: "blob",
+    });
+
+    const blobUrl = URL.createObjectURL(response.data);
+
+    if (newWindow) {
+      newWindow.location.href = blobUrl;
+    } else {
+      window.location.href = blobUrl;
+    }
+  } catch (error) {
+    if (newWindow) {
+      newWindow.close();
+    }
+
+    console.error("Could not open file", error);
+  }
+}
+
 export const getPayments = () =>
   api.get("/payments").then((r) => r.data);
