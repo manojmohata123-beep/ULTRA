@@ -1,4 +1,5 @@
-from fastapi import FastAPI, APIRouter, UploadFile, File, HTTPException
+from fastapi import FastAPI, APIRouter, UploadFile, File, HTTPException, Depends
+from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from fastapi.responses import Response
 from dotenv import load_dotenv
 from starlette.middleware.cors import CORSMiddleware
@@ -10,6 +11,8 @@ from pathlib import Path
 from pydantic import BaseModel, Field
 from typing import List, Optional
 import uuid
+import jwt
+import bcrypt
 from datetime import datetime, timezone, timedelta
 
 
@@ -21,7 +24,63 @@ client = AsyncIOMotorClient(mongo_url)
 db = client[os.environ['DB_NAME']]
 
 app = FastAPI()
-api_router = APIRouter(prefix="/api")
+
+security = HTTPBearer()
+
+JWT_SECRET = os.environ["JWT_SECRET"]
+JWT_ALGORITHM = "HS256"
+
+
+async def get_current_user(
+    credentials: HTTPAuthorizationCredentials = Depends(security)
+):
+    token = credentials.credentials
+
+    try:
+        payload = jwt.decode(
+            token,
+            JWT_SECRET,
+            algorithms=[JWT_ALGORITHM]
+        )
+        username = payload.get("sub")
+
+        if not username:
+            raise HTTPException(
+                status_code=401,
+                detail="Invalid authentication token"
+            )
+
+        user = await db.users.find_one(
+            {"username": username},
+            {"_id": 0}
+        )
+
+        if not user:
+            raise HTTPException(
+                status_code=401,
+                detail="User not found"
+            )
+
+        return user
+
+    except jwt.ExpiredSignatureError:
+        raise HTTPException(
+            status_code=401,
+            detail="Authentication token expired"
+        )
+    except jwt.InvalidTokenError:
+        raise HTTPException(
+            status_code=401,
+            detail="Invalid authentication token"
+        )
+
+
+api_router = APIRouter(
+    prefix="/api",
+    dependencies=[Depends(get_current_user)]
+)
+
+auth_router = APIRouter(prefix="/api")
 
 STAGES = ["ordered", "dispatched", "received", "delivered"]
 STAGE_LABELS = {
@@ -187,6 +246,57 @@ async def recompute_timestamps(order: dict):
         await db.orders.update_one({"id": order["id"]}, {"$set": update})
 
 
+# ---------- Authentication ----------
+
+class LoginRequest(BaseModel):
+    username: str
+    password: str
+
+
+@auth_router.post("/auth/login")
+async def login(payload: LoginRequest):
+    user = await db.users.find_one(
+        {"username": payload.username},
+        {"_id": 0}
+    )
+
+    if not user:
+        raise HTTPException(
+            status_code=401,
+            detail="Invalid username or password"
+        )
+
+    if not bcrypt.checkpw(
+        payload.password.encode("utf-8"),
+        user["password_hash"].encode("utf-8")
+    ):
+        raise HTTPException(
+            status_code=401,
+            detail="Invalid username or password"
+        )
+
+    token = jwt.encode(
+        {
+            "sub": user["username"],
+            "exp": datetime.now(timezone.utc) + timedelta(days=7)
+        },
+        JWT_SECRET,
+        algorithm=JWT_ALGORITHM
+    )
+
+    return {
+        "access_token": token,
+        "token_type": "bearer",
+        "username": user["username"]
+    }
+
+
+@auth_router.get("/auth/me")
+async def current_user(user=Depends(get_current_user)):
+    return {
+        "username": user["username"]
+    }
+    
 # ---------- Files ----------
 @api_router.post("/files")
 async def upload_file(file: UploadFile = File(...)):
@@ -375,6 +485,7 @@ async def payments_overview():
     return {"pending": pending, "archive": archive}
 
 
+app.include_router(auth_router)
 app.include_router(api_router)
 
 app.add_middleware(
